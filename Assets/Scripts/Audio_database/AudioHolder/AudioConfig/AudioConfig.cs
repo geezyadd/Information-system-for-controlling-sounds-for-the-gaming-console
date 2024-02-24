@@ -6,5 +6,4 @@ public class AudioConfig
 {
     public AudioType AudioId;
     public AudioClip SoundClip;
-
 }

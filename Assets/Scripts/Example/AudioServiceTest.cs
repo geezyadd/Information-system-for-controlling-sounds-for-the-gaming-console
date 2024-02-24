@@ -10,15 +10,19 @@ public class AudioServiceTest : MonoBehaviour
     [Inject]
     public void Construct(AudioManagerFactory audioManagerFactory)
     {
-        _audioManager = audioManagerFactory.Create(_audioType, transform);
+        _audioManager = audioManagerFactory.Create(_audioType, false, transform);
     }
-
 
     void Update()
     {
-        if(Input.GetKeyDown(_keyCode)) { 
+        if(Input.GetKeyDown(_keyCode)) {
+            _audioManager.InitializeAudioSource();
             _audioManager.MacaqueExample();
             _audioManager.SimplePlay();
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            _audioManager.DestroyAudioSourcePrefab();
         }
     }
 }
