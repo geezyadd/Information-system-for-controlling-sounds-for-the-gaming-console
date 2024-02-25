@@ -1,9 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class AudioEntity : MonoBehaviour
+public class AudioEntity : MonoBehaviour, IInitializable
 {
+    private AudioEffectManager _effectManager;
+    [Inject]
+    public void Construct(AudioEffectManager effectManager)
+    {
+        _effectManager = effectManager;
+    }
     public GameObject InstantiateSourcePrefab(GameObject prefab, Transform parent = null)
     {
         if (parent != null)
@@ -20,10 +25,126 @@ public class AudioEntity : MonoBehaviour
     {
         Destroy(prefab);
     }
+    public void AddAudioEffect(GameObject audioSourceObject, AudioEffectType effectType)
+    {
+        AudioSource audioSource = audioSourceObject.GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("GameObject does not have an AudioSource component!");
+            return;
+        }
 
+        switch (effectType)
+        {
+            case AudioEffectType.Chorus:
+                if (!audioSourceObject.GetComponent<AudioChorusFilter>())
+                {
+                    audioSourceObject.AddComponent<AudioChorusFilter>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.Distortion:
+                if (!audioSourceObject.GetComponent<AudioDistortionFilter>())
+                {
+                    audioSourceObject.AddComponent<AudioDistortionFilter>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.Echo:
+                if (!audioSourceObject.GetComponent<AudioEchoFilter>())
+                {
+                    audioSourceObject.AddComponent<AudioEchoFilter>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.HighPassFilter:
+                if (!audioSourceObject.GetComponent<AudioHighPassFilter>())
+                {
+                    audioSourceObject.AddComponent<AudioHighPassFilter>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.LowPassFilter:
+                if (!audioSourceObject.GetComponent<AudioLowPassFilter>())
+                {
+                    audioSourceObject.AddComponent<AudioLowPassFilter>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.Reverb:
+                if (!audioSourceObject.GetComponent<AudioReverbFilter>())
+                {
+                    audioSourceObject.AddComponent<AudioReverbFilter>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.ReverbZone:
+                if (!audioSourceObject.GetComponent<AudioReverbZone>())
+                {
+                    audioSourceObject.AddComponent<AudioReverbZone>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            case AudioEffectType.Listener:
+                if (!audioSourceObject.GetComponent<AudioListener>())
+                {
+                    audioSourceObject.AddComponent<AudioListener>();
+                }
+                else
+                {
+                    Debug.LogError($"GameObject already has {effectType}!");
+                }
+                break;
+            default:
+                Debug.LogWarning("Unsupported audio effect type.");
+                break;
+        }
+    }
+
+   //public void AddAudioEffect(GameObject prefab, AudioEffectType audioEffectType) 
+   //{
+   //    _effectManager.AddAudioEffect(prefab, audioEffectType);
+   //}
+
+    /// <summary>
+    ///  Code to change AudioSource!
+    /// </summary>
+    
     public void SimplePlay(AudioSource audioSource)
     {
         audioSource.Play();
+    }
+    public void SetSounClip(AudioSource audioSource, AudioClip sound)
+    {
+        if (sound != null)
+        {
+            audioSource.clip = sound;
+        }
+        else
+        {
+            Debug.LogError("Sound is null!");
+        }
     }
 
     public void SetMute(AudioSource audioSource, bool value) 
@@ -148,4 +269,6 @@ public class AudioEntity : MonoBehaviour
     {
         Debug.Log("Macaque is running");
     }
+
+    public void Initialize(){}
 }

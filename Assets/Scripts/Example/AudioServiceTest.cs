@@ -24,5 +24,9 @@ public class AudioServiceTest : MonoBehaviour
         {
             _audioManager.DestroyAudioSourcePrefab();
         }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _audioManager.AddAudioEffect(AudioEffectType.Chorus);
+        }
     }
 }

@@ -12,7 +12,6 @@ public class AudioManager
     private AudioHolder _audioConfig;
     private Transform _parentTransform;
     private bool _isAudioSourceInstantiated = false;
-
     public AudioManager(AudioType audioType, GameObject audioSource, AudioHolder config, bool isInstantiateOnCreate = true, Transform parent = null) 
     {
         _parentTransform = parent;
@@ -40,7 +39,7 @@ public class AudioManager
             {
                 if (sound.AudioId == _audioType)
                 {
-                    SetSounClip(sound.SoundClip);
+                    _audioEntity.SetSounClip(_audioSource, sound.SoundClip);
                 }
             }
             _isAudioSourceInstantiated = true;
@@ -55,21 +54,20 @@ public class AudioManager
     {
         _audioEntity.SimplePlay(_audioSourcePrefabCopy.GetComponent<AudioSource>());
     }
+    public void AddAudioEffect(AudioEffectType audioEffectType) 
+    {
+        if(_audioSourcePrefabCopy != null) 
+        {
+            _audioEntity.AddAudioEffect(_audioSourcePrefabCopy, audioEffectType);
+        }
+        else 
+        {
+            Debug.LogError("AudioPrephab is not initialized!");
+        }
+    }
 
     public void MacaqueExample() 
     {
         _audioEntity.Macaque();
     }
-    private void SetSounClip(AudioClip sound) 
-    {
-        if (sound != null)
-        {
-            _audioSource.clip = sound;
-        }
-        else
-        {
-            Debug.LogError("Sound in cofig is null!");
-        }
-    }
-
 }

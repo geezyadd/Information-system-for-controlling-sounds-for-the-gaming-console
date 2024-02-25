@@ -12,5 +12,7 @@ public class AudioServiceInstaller : MonoInstaller
         Container.BindInstance(AudioHolderConfig).AsSingle(); 
         Container.Bind<AudioManager>().AsTransient();
         Container.Bind<AudioManagerFactory>().AsTransient();
+        Container.Bind<AudioEffectManager>().AsTransient();
+        Container.Bind<AudioEntity>().AsTransient();
     }
 }
