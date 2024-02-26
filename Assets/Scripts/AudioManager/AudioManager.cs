@@ -33,7 +33,6 @@ public class AudioManager
         _audioEntity.DestroySourcePrefab(_audioSourcePrefabCopy);
         _isAudioSourceInstantiated = false;
     }
-
     public void InitializeAudioSource() 
     {
         if (!_isAudioSourceInstantiated) 
@@ -55,13 +54,25 @@ public class AudioManager
             Debug.LogError("AudioSource is already initialized!");
         }
     }
+    public AudioSource GetAudioSource() 
+    {
+        if(_audioSource != null)
+        {
+            return _audioSource;
+        }
+        else 
+        {
+            Debug.LogError("AudioSource must be initialized!");
+            return null;
+        }
+    }
 
     public void SimplePlay() 
     {
         _audioEntity.SimplePlay(_audioSourcePrefabCopy.GetComponent<AudioSource>());
     }
 
-    public void AddAudioEffect(AudioEffectType audioEffectType) 
+    public void AddAudioEffect(AudioEffectUnityEngineType audioEffectType) 
     {
         if(_audioSourcePrefabCopy != null) 
         {

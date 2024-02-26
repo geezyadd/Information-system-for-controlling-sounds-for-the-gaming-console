@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -6,6 +7,7 @@ public class AudioServiceTest : MonoBehaviour
     private AudioManager _audioManager;
     [SerializeField] private AudioType _audioType;
     [SerializeField] private KeyCode _keyCode;
+    public Type type = typeof(AudioChorusFilter);
 
     [Inject]
     public void Construct(AudioManagerFactory audioManagerFactory)
@@ -15,6 +17,7 @@ public class AudioServiceTest : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(type);
         if(Input.GetKeyDown(_keyCode)) {
             _audioManager.InitializeAudioSource();
             _audioManager.MacaqueExample();
@@ -26,7 +29,7 @@ public class AudioServiceTest : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _audioManager.AddAudioEffect(AudioEffectType.Chorus);
+            _audioManager.AddAudioEffect(AudioEffectUnityEngineType.AudioChorusFilter);
         }
     }
 }

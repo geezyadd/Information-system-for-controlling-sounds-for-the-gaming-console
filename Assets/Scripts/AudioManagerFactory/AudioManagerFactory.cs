@@ -8,6 +8,7 @@ public class AudioManagerFactory : IFactory<AudioType, bool, Transform, AudioMan
     private GameObject _audioSource;
     private AudioHolder _audioConfig;
     private AudioEffectManager _effectManager;
+
     [Inject]
     public void Construct(GameObject audioSource, AudioHolder audioConfig, AudioEffectManager effectManager)
     {

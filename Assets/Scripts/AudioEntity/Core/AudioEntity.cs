@@ -25,7 +25,7 @@ public class AudioEntity : MonoBehaviour, IInitializable
     {
         Destroy(prefab);
     }
-    public void AddAudioEffect(GameObject audioSourceObject, AudioEffectType effectType)
+    public void AddAudioEffect(GameObject audioSourceObject, AudioEffectUnityEngineType effectType)
     {
         _effectManager.AddAudioEffect(audioSourceObject, effectType);
     }
