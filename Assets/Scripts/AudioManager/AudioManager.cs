@@ -30,8 +30,15 @@ public class AudioManager
     }
     public void DestroyAudioSourcePrefab() 
     {
-        _audioEntity.DestroySourcePrefab(_audioSourcePrefabCopy);
-        _isAudioSourceInstantiated = false;
+        if (_audioSourcePrefabCopy != null)
+        {
+            _audioEntity.DestroySourcePrefab(_audioSourcePrefabCopy);
+            _isAudioSourceInstantiated = false;
+        }
+        else
+        {
+            Debug.LogError("AudioPrephab is not initialized!");
+        }
     }
     public void InitializeAudioSource() 
     {
@@ -54,16 +61,18 @@ public class AudioManager
             Debug.LogError("AudioSource is already initialized!");
         }
     }
-    public AudioSource GetAudioSource() 
+    public bool GetAudioSource(out AudioSource source) 
     {
         if(_audioSource != null)
         {
-            return _audioSource;
+            source = _audioSource;
+            return true;
         }
         else 
         {
             Debug.LogError("AudioSource must be initialized!");
-            return null;
+            source =  null;
+            return false;
         }
     }
 
@@ -81,6 +90,20 @@ public class AudioManager
         else 
         {
             Debug.LogError("AudioPrephab is not initialized!");
+        }
+    }
+    public bool GetAudioEffect(AudioEffectUnityEngineType audioEffectType, out Component component)
+    {
+        if (_audioSourcePrefabCopy != null)
+        {
+            component = _audioEntity.GetAudioEffect(_audioSourcePrefabCopy, audioEffectType);
+            return component != null;
+        }
+        else
+        {
+            Debug.LogError("AudioPrephab is not initialized!");
+            component = null;
+            return false;
         }
     }
 

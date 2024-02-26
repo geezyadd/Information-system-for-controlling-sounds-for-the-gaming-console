@@ -29,12 +29,16 @@ public class AudioEntity : MonoBehaviour, IInitializable
     {
         _effectManager.AddAudioEffect(audioSourceObject, effectType);
     }
+    public Component GetAudioEffect(GameObject audioSourcePrefab, AudioEffectUnityEngineType audioEffectType) 
+    {
+        return _effectManager.GetAudioEffect(audioSourcePrefab, audioEffectType);
+    }
 
 
     /// <summary>
     ///  Code to change AudioSource!
     /// </summary>
-    
+
     public void SimplePlay(AudioSource audioSource)
     {
         audioSource.Play();

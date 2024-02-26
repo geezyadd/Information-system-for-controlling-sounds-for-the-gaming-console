@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 public class AudioEffectManager
@@ -34,6 +35,20 @@ public class AudioEffectManager
         else
         {
             Debug.LogError($"Invalid component type: {componentType}");
+        }
+    }
+    public Component GetAudioEffect(GameObject audioSourcePrefab, AudioEffectUnityEngineType audioEffectType)
+    {
+        Type componentType = _audioEffectTypeMapping.GetTypeFromEnum(audioEffectType);
+        var component = audioSourcePrefab.GetComponent(componentType);
+        if(component == null) 
+        {
+            Debug.LogError($"Game object has no component {componentType}!");
+            return null;
+        }
+        else 
+        {
+            return component;
         }
     }
 }
