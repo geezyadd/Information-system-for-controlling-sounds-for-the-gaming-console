@@ -12,12 +12,16 @@ public class AudioManager
     private AudioHolder _audioConfig;
     private Transform _parentTransform;
     private bool _isAudioSourceInstantiated = false;
-    public AudioManager(AudioType audioType, GameObject audioSource, AudioHolder config, bool isInstantiateOnCreate = true, Transform parent = null) 
+    private AudioEffectManager _effectManager;
+
+   
+    public AudioManager(AudioType audioType, AudioEffectManager effectManager, GameObject audioSource, AudioHolder audioConfig, bool isInstantiateOnCreate = true, Transform parent = null) 
     {
-        _parentTransform = parent;
-        _audioConfig = config;
-        _audioType = audioType;
+        _effectManager = effectManager;
         _audioSourcePrefab = audioSource;
+        _audioConfig = audioConfig;
+        _parentTransform = parent;
+        _audioType = audioType;
         _audioEntity = _audioSourcePrefab.GetComponent<AudioEntity>();
         if(isInstantiateOnCreate) 
         {
@@ -29,6 +33,7 @@ public class AudioManager
         _audioEntity.DestroySourcePrefab(_audioSourcePrefabCopy);
         _isAudioSourceInstantiated = false;
     }
+
     public void InitializeAudioSource() 
     {
         if (!_isAudioSourceInstantiated) 
@@ -43,6 +48,7 @@ public class AudioManager
                 }
             }
             _isAudioSourceInstantiated = true;
+            _audioEntity.SetAudioEffectManager(_effectManager);
         }
         else 
         {
@@ -54,6 +60,7 @@ public class AudioManager
     {
         _audioEntity.SimplePlay(_audioSourcePrefabCopy.GetComponent<AudioSource>());
     }
+
     public void AddAudioEffect(AudioEffectType audioEffectType) 
     {
         if(_audioSourcePrefabCopy != null) 
