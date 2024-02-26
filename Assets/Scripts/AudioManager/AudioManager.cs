@@ -5,7 +5,7 @@ using Zenject;
 public class AudioManager 
 {
     private AudioType _audioType;
-    private AudioEntity _audioEntity;
+    private AudioPrefabEntity _audioEntity;
     private GameObject _audioSourcePrefab;
     private GameObject _audioSourcePrefabCopy;
     private AudioSource _audioSource;
@@ -22,7 +22,7 @@ public class AudioManager
         _audioConfig = audioConfig;
         _parentTransform = parent;
         _audioType = audioType;
-        _audioEntity = _audioSourcePrefab.GetComponent<AudioEntity>();
+        _audioEntity = _audioSourcePrefab.GetComponent<AudioPrefabEntity>();
         if(isInstantiateOnCreate) 
         {
             InitializeAudioSource();

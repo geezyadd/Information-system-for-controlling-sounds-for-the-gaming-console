@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class AudioEntity : MonoBehaviour, IInitializable
+public class AudioPrefabEntity : MonoBehaviour, IInitializable
 {
     private AudioEffectManager _effectManager;
     
