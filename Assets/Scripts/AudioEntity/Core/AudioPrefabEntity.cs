@@ -34,11 +34,6 @@ public class AudioPrefabEntity : MonoBehaviour, IInitializable
         return _effectManager.GetAudioEffect(audioSourcePrefab, audioEffectType);
     }
 
-
-    /// <summary>
-    ///  Code to change AudioSource!
-    /// </summary>
-
     public void SimplePlay(AudioSource audioSource)
     {
         audioSource.Play();
