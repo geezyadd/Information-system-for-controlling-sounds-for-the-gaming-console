@@ -1,11 +1,8 @@
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using Zenject;
 public class AudioManager 
 {
     private AudioType _audioType;
-    private AudioPrefabEntity _audioEntity;
+    private AudioPrefabEntity _audioPrefabEntity;
     private GameObject _audioSourcePrefab;
     private GameObject _audioSourcePrefabCopy;
     private AudioSource _audioSource;
@@ -22,7 +19,7 @@ public class AudioManager
         _audioConfig = audioConfig;
         _parentTransform = parent;
         _audioType = audioType;
-        _audioEntity = _audioSourcePrefab.GetComponent<AudioPrefabEntity>();
+        _audioPrefabEntity = _audioSourcePrefab.GetComponent<AudioPrefabEntity>();
         if(isInstantiateOnCreate) 
         {
             InitializeAudioSource();
@@ -32,7 +29,7 @@ public class AudioManager
     {
         if (_audioSourcePrefabCopy != null)
         {
-            _audioEntity.DestroySourcePrefab(_audioSourcePrefabCopy);
+            _audioPrefabEntity.DestroySourcePrefab(_audioSourcePrefabCopy);
             _isAudioSourceInstantiated = false;
         }
         else
@@ -44,17 +41,16 @@ public class AudioManager
     {
         if (!_isAudioSourceInstantiated) 
         {
-            _audioSourcePrefabCopy = _audioEntity.InstantiateSourcePrefab(_audioSourcePrefab, _parentTransform);
+            _audioSourcePrefabCopy = _audioPrefabEntity.InstantiateSourcePrefab(_audioSourcePrefab, _parentTransform);
             _audioSource = _audioSourcePrefabCopy.GetComponent<AudioSource>();
             foreach (AudioConfig sound in _audioConfig.AudioConfig())
             {
                 if (sound.AudioId == _audioType)
                 {
-                    _audioEntity.SetSounClip(_audioSource, sound.SoundClip);
+                    _audioPrefabEntity.SetSounClip(_audioSource, sound.SoundClip);
                 }
             }
             _isAudioSourceInstantiated = true;
-            _audioEntity.SetAudioEffectManager(_effectManager);
         }
         else 
         {
@@ -78,14 +74,14 @@ public class AudioManager
 
     public void SimplePlay() 
     {
-        _audioEntity.SimplePlay(_audioSourcePrefabCopy.GetComponent<AudioSource>());
+        _audioPrefabEntity.SimplePlay(_audioSourcePrefabCopy.GetComponent<AudioSource>());
     }
 
     public void AddAudioEffect(AudioEffectUnityEngineType audioEffectType) 
     {
         if(_audioSourcePrefabCopy != null) 
         {
-            _audioEntity.AddAudioEffect(_audioSourcePrefabCopy, audioEffectType);
+            _effectManager.AddAudioEffect(_audioSourcePrefabCopy, audioEffectType);
         }
         else 
         {
@@ -96,7 +92,7 @@ public class AudioManager
     {
         if (_audioSourcePrefabCopy != null)
         {
-            component = _audioEntity.GetAudioEffect(_audioSourcePrefabCopy, audioEffectType);
+            component = _effectManager.GetAudioEffect(_audioSourcePrefabCopy, audioEffectType);
             return component != null;
         }
         else
@@ -109,6 +105,6 @@ public class AudioManager
 
     public void MacaqueExample() 
     {
-        _audioEntity.Macaque();
+        _audioPrefabEntity.Macaque();
     }
 }

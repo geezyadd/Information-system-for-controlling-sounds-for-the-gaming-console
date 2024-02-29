@@ -16,23 +16,12 @@ public class AudioPrefabEntity : MonoBehaviour, IInitializable
             return Instantiate(prefab);
         }
     }
-    public void SetAudioEffectManager(AudioEffectManager effectManager) 
-    {
-        _effectManager = effectManager;
-    }
 
     public void DestroySourcePrefab(GameObject prefab)
     {
         Destroy(prefab);
     }
-    public void AddAudioEffect(GameObject audioSourceObject, AudioEffectUnityEngineType effectType)
-    {
-        _effectManager.AddAudioEffect(audioSourceObject, effectType);
-    }
-    public Component GetAudioEffect(GameObject audioSourcePrefab, AudioEffectUnityEngineType audioEffectType) 
-    {
-        return _effectManager.GetAudioEffect(audioSourcePrefab, audioEffectType);
-    }
+    
 
     public void SimplePlay(AudioSource audioSource)
     {
