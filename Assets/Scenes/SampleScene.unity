@@ -417,7 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioType: 1
   _keyCode: 32
-  _audioEnviromentType: 0
+  _audioEnviromentType: 1
 --- !u!4 &1562604097
 Transform:
   m_ObjectHideFlags: 0
