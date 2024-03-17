@@ -6,11 +6,12 @@ public class AudioServiceTest : MonoBehaviour
     private AudioManager _audioManager;
     [SerializeField] private AudioType _audioType;
     [SerializeField] private KeyCode _keyCode;
+    [SerializeField] private AudioEnviromentType _audioEnviromentType;
 
     [Inject]
     public void Construct(AudioManagerFactory audioManagerFactory)
     {
-        _audioManager = audioManagerFactory.Create(_audioType, false, transform);
+        _audioManager = audioManagerFactory.Create(_audioType, _audioEnviromentType, false, transform);
     }
 
     void Update()

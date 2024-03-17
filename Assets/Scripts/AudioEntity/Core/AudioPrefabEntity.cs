@@ -3,8 +3,6 @@ using Zenject;
 
 public class AudioPrefabEntity : MonoBehaviour, IInitializable
 {
-    private AudioEffectManager _effectManager;
-    
     public GameObject InstantiateSourcePrefab(GameObject prefab, Transform parent = null)
     {
         if (parent != null)
@@ -22,11 +20,11 @@ public class AudioPrefabEntity : MonoBehaviour, IInitializable
         Destroy(prefab);
     }
     
-
     public void SimplePlay(AudioSource audioSource)
     {
         audioSource.Play();
     }
+
     public void SetSounClip(AudioSource audioSource, AudioClip sound)
     {
         if (sound != null)

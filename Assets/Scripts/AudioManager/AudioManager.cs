@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
-public class AudioManager 
+using Zenject;
+
+public class AudioManager :IInitializable, IDisposable
 {
     private AudioType _audioType;
     private AudioPrefabEntity _audioPrefabEntity;
@@ -10,10 +13,19 @@ public class AudioManager
     private Transform _parentTransform;
     private bool _isAudioSourceInstantiated = false;
     private AudioEffectManager _effectManager;
+    private AudioEventService _audioEventService;
+    private AudioEnviromentType _audioEnviromentType;
 
-   
-    public AudioManager(AudioType audioType, AudioEffectManager effectManager, GameObject audioSource, AudioHolder audioConfig, bool isInstantiateOnCreate = true, Transform parent = null) 
+    [Inject]
+    public void Construct(AudioEventService audioEventService)
     {
+        audioEventService.AddAudioManager(this);
+        _audioEventService = audioEventService;
+    }
+
+    public AudioManager(AudioType audioType, AudioEffectManager effectManager, GameObject audioSource, AudioHolder audioConfig, AudioEnviromentType audioEnviromentType = AudioEnviromentType.None, bool isInstantiateOnCreate = true, Transform parent = null) 
+    {
+        _audioEnviromentType = audioEnviromentType;
         _effectManager = effectManager;
         _audioSourcePrefab = audioSource;
         _audioConfig = audioConfig;
@@ -51,12 +63,19 @@ public class AudioManager
                 }
             }
             _isAudioSourceInstantiated = true;
+            SetAudioEnviroment(_audioSource);
         }
         else 
         {
             Debug.LogError("AudioSource is already initialized!");
         }
     }
+
+    private void SetAudioEnviroment(AudioSource source, bool enable = true)
+    {
+        _audioEventService.SetAudioEnviroment(_audioEnviromentType, source, enable);
+    }
+
     public bool GetAudioSource(out AudioSource source) 
     {
         if(_audioSource != null)
@@ -103,8 +122,19 @@ public class AudioManager
         }
     }
 
+    public GameObject GetAudioSourcePrefab() { return _audioSourcePrefab; }
+
     public void MacaqueExample() 
     {
         _audioPrefabEntity.Macaque();
+    }
+
+    public void Initialize()
+    {
+    }
+
+    public void Dispose()
+    {
+        SetAudioEnviroment(_audioSource, false);
     }
 }
